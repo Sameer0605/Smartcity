@@ -64,6 +64,36 @@ python -m http.server 5500     # → http://localhost:5500
 http://localhost:5500/login.html
 ```
 
+### Free deployment with durable data
+
+The Render free filesystem is temporary, so SQLite data is not suitable for
+production there. The backend automatically uses PostgreSQL when `DATABASE_URL`
+is set and keeps SQLite for local development.
+
+1. Create a free PostgreSQL database at [Supabase](https://supabase.com/) or
+   [Neon](https://neon.tech/) and copy its connection string.
+2. In Render, create a **Web Service** from the `Sameer0605/Smartcity`
+   repository and use:
+   - Build command: `pip install -r requirements.txt`
+   - Start command:
+     `gunicorn --chdir backend app:app --bind 0.0.0.0:$PORT`
+   - Plan: `Free`
+3. Add these Render environment variables:
+   ```
+   FLASK_ENV=production
+   SECRET_KEY=<long-random-secret>
+   DATABASE_URL=<managed-postgresql-connection-string>
+   FRONTEND_ORIGIN=https://<your-service>.onrender.com
+   FRONTEND_APP_URL=https://<your-service>.onrender.com/app/
+   FRONTEND_LOGIN_URL=https://<your-service>.onrender.com/login.html
+   ```
+4. Deploy and verify:
+   `https://<your-service>.onrender.com/api/health`
+
+Supabase/Neon preserves users and analytics across Render restarts and
+redeployments. The Render service may still sleep when idle on the free plan,
+so the first request after inactivity can take longer.
+
 ### Google OAuth Setup (required before "Continue with Google" will work)
 Until you complete this, clicking the button redirects back to login with a clear "not configured" message — it never fakes success.
 

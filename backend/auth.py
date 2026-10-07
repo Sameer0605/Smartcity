@@ -295,7 +295,8 @@ def reset_password():
     new_hash = hash_password(password)
     db.clear_password_reset_token(candidate["id"])
     with db.db_cursor(commit=True) as cur:
-        cur.execute(
+        db._execute(
+            cur,
             "UPDATE users SET password_hash = ?, updated_at = ? WHERE id = ?",
             (new_hash, db._now(), candidate["id"]),
         )
@@ -413,6 +414,5 @@ def google_callback():
     except Exception as exc:
         print(f"[WARN] Google callback failed: {exc}")
         return _google_failed()
-
 
 

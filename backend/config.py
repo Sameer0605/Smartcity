@@ -37,6 +37,7 @@ class Config:
     # folder silently creates a second, empty smartcity.db there and every
     # registered account appears to vanish.
     _db_path = _get("DATABASE_PATH", "smartcity.db")
+    DATABASE_URL = _get("DATABASE_URL", "")
     DATABASE_PATH = (
         _db_path if os.path.isabs(_db_path)
         else os.path.join(BACKEND_DIR, os.path.basename(_db_path))
