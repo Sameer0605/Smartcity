@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SmartCityAI — AI-Powered Urban Intelligence for Indian Cities</title>
+  <meta name="description" content="Predict traffic, air quality, and population growth across 20 major Indian cities using LSTM, Random Forest, and Linear Regression models."/>
+  <meta name="theme-color" content="#050816"/>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/>
+  <meta property="og:title" content="SmartCityAI — AI-Powered Urban Intelligence"/>
+  <meta property="og:description" content="Forecast traffic, air quality, and population growth across 20 major Indian cities."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/landing.css?v=2.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+</head>
+<body>
+
+<!-- ═══ LOADING OVERLAY ═══ -->
+<div class="lp-loader" id="lpLoader">
+  <div class="lp-loader-ring"></div>
+</div>
+
+<!-- ═══ CURSOR GLOW ═══ -->
+<div class="lp-cursor-glow" id="lpCursorGlow"></div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="lp-nav" id="lpNav">
+  <div class="lp-nav-inner">
+    <a href="/" class="lp-nav-brand">
+      <span class="lp-nav-logo">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="8" fill="url(#logo-grad)"/>
+          <path d="M8 22V14l4-4 4 6 4-8 4 6v8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="16" cy="12" r="2" fill="#fff" opacity=".7"/>
+          <defs><linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs>
+        </svg>
+      </span>
+      <span class="lp-nav-wordmark">SmartCityAI</span>
+    </a>
+    <div class="lp-nav-center"></div>
+    <div class="lp-nav-right">
+    </div>
+    <button class="lp-hamburger" id="lpHamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="lp-mobile" id="lpMobile">
+  <div class="lp-mobile-panel">
+    <button class="lp-mobile-close" id="lpMobileClose" aria-label="Close menu">&times;</button>
+    <a href="login.html">Log In</a>
+    <a href="register.html" class="lp-mobile-cta lp-guest-only">Get Started Free</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════ -->
+<section class="lp-hero" id="hero">
+  <!-- Animated background layers -->
+  <div class="lp-hero-bg">
+    <div class="lp-orb lp-orb--1"></div>
+    <div class="lp-orb lp-orb--2"></div>
+    <div class="lp-orb lp-orb--3"></div>
+    <div class="lp-hero-grid"></div>
+    <canvas class="lp-hero-particles" id="lpParticles"></canvas>
+  </div>
+
+  <div class="lp-hero-inner">
+    <div class="lp-hero-content">
+      <!-- Left: copy -->
+      <div class="lp-hero-copy">
+        <div class="lp-hero-badge anim-fade-up">
+          <span class="lp-hero-badge-pulse"></span>
+          AI-Powered Urban Intelligence
+        </div>
+        <h1 class="lp-hero-title anim-fade-up" style="animation-delay:.1s">
+          Build Smarter Cities<br/>with <span class="lp-gradient-text">AI Predictions</span>
+        </h1>
+        <p class="lp-hero-desc anim-fade-up" style="animation-delay:.2s">
+          Forecast traffic congestion, air quality, and population growth across 20 major Indian cities — from 2025 to 2100 — using LSTM, Random Forest, and Linear Regression.
+        </p>
+        <div class="lp-hero-actions anim-fade-up" style="animation-delay:.3s">
+          <a href="register.html" class="lp-btn lp-btn--glow lp-guest-only">
+            Get Started
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="app/" class="lp-btn lp-btn--glow lp-auth-only" style="display:none">
+            Open Dashboard
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="login.html" class="lp-btn lp-btn--ghost">Log In</a>
+        </div>
+
+      </div>
+
+      <!-- Right: floating dashboard mockup -->
+      <div class="lp-hero-visual anim-fade-up" style="animation-delay:.3s">
+        <div class="lp-dashboard-float">
+          <div class="lp-dash-window">
+            <div class="lp-dash-chrome">
+              <div class="lp-dash-dots"><span></span><span></span><span></span></div>
+              <span class="lp-dash-url">localhost:8765/app/</span>
+            </div>
+            <div class="lp-dash-body">
+              <div class="lp-dash-sidebar">
+                <div class="lp-dash-nav-item active"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+                <div class="lp-dash-nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg></div>
+                <div class="lp-dash-nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+                <div class="lp-dash-nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg></div>
+                <div class="lp-dash-nav-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              </div>
+              <div class="lp-dash-main">
+                <div class="lp-dash-header">
+                  <div>
+                    <div class="lp-dash-city">Hyderabad</div>
+                    <div class="lp-dash-year">Year 2040 &middot; LSTM Model</div>
+                  </div>
+                  <div class="lp-dash-badge">LIVE</div>
+                </div>
+                <div class="lp-dash-kpis">
+                  <div class="lp-dash-kpi" style="--kpi-color:#7c3aed">
+                    <span class="lp-dash-kpi-icon">🏙️</span>
+                    <div>
+                      <div class="lp-dash-kpi-val">25.4M</div>
+                      <div class="lp-dash-kpi-lbl">Population</div>
+                    </div>
+                  </div>
+                  <div class="lp-dash-kpi" style="--kpi-color:#6366f1">
+                    <span class="lp-dash-kpi-icon">🚗</span>
+                    <div>
+                      <div class="lp-dash-kpi-val">89.2</div>
+                      <div class="lp-dash-kpi-lbl">Traffic</div>
+                    </div>
+                  </div>
+                  <div class="lp-dash-kpi" style="--kpi-color:#f97316">
+                    <span class="lp-dash-kpi-icon">💨</span>
+                    <div>
+                      <div class="lp-dash-kpi-val">142</div>
+                      <div class="lp-dash-kpi-lbl">AQI</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="lp-dash-chart">
+                  <div class="lp-dash-chart-label">Prediction Trend</div>
+                  <div class="lp-dash-chart-bars" id="dashBars"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Floating glass cards -->
+          <div class="lp-glass-card lp-glass-1">
+            <div class="lp-glass-icon">🤖</div>
+            <div class="lp-glass-text">LSTM Active</div>
+          </div>
+          <div class="lp-glass-card lp-glass-2">
+            <div class="lp-glass-icon">📊</div>
+            <div class="lp-glass-text">95% R²</div>
+          </div>
+          <div class="lp-glass-card lp-glass-3">
+            <div class="lp-glass-icon">🗺️</div>
+            <div class="lp-glass-text">20 Cities</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom gradient fade -->
+  <div class="lp-hero-fade"></div>
+</section>
+
+
+<script src="js/landing.js?v=2.0"></script>
+<script>
+(function(){try{fetch('/api/analytics/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:window.location.pathname})});}catch(e){}})();
+</script>
+</body>
+</html>

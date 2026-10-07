@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Create Account — SmartCityAI</title>
+  <meta name="description" content="Create your free SmartCityAI account to access AI-powered urban intelligence for 20 major Indian cities."/>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/>
+  <meta property="og:title" content="Create Account — SmartCityAI"/>
+  <meta property="og:description" content="Free access to AI-powered urban predictions for Indian cities."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/auth.css"/>
+</head>
+<body class="auth-body">
+
+<div class="auth-shell">
+
+  <!-- LEFT VISUAL PANEL -->
+  <div class="auth-visual">
+    <div class="auth-brand"><div class="auth-brand-icon">◆</div>SMARTCITYAI</div>
+
+    <div class="auth-visual-headline">
+      <h1>Predict the Future.<br/>Build Smarter Cities.</h1>
+      <p>Create your account to start exploring AI-driven forecasts for traffic, air quality, and population growth across India's cities.</p>
+    </div>
+
+    <svg class="auth-city-svg" viewBox="0 0 340 150" width="100%" height="150" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="128" x2="340" y2="128" stroke="rgba(255,255,255,.14)" stroke-width="1"/>
+      <g opacity=".9">
+        <rect x="18" y="70" width="22" height="58" rx="2" fill="#0f2f52"/>
+        <rect x="46" y="50" width="26" height="78" rx="2" fill="#123a66"/>
+        <rect x="78" y="86" width="18" height="42" rx="2" fill="#0f2f52"/>
+        <rect x="102" y="34" width="24" height="94" rx="2" fill="#154578"/>
+        <rect x="132" y="60" width="20" height="68" rx="2" fill="#0f2f52"/>
+        <rect x="158" y="20" width="26" height="108" rx="2" fill="#175089"/>
+        <rect x="190" y="72" width="18" height="56" rx="2" fill="#0f2f52"/>
+        <rect x="214" y="44" width="24" height="84" rx="2" fill="#154578"/>
+        <rect x="244" y="90" width="20" height="38" rx="2" fill="#0f2f52"/>
+        <rect x="270" y="58" width="26" height="70" rx="2" fill="#123a66"/>
+        <rect x="302" y="78" width="20" height="50" rx="2" fill="#0f2f52"/>
+      </g>
+      <g fill="#19C7E8">
+        <rect x="107" y="42" width="4" height="4" opacity=".9"/><rect x="115" y="50" width="4" height="4" opacity=".6"/>
+        <rect x="163" y="30" width="4" height="4" opacity=".9"/><rect x="171" y="46" width="4" height="4" opacity=".7"/>
+        <rect x="220" y="54" width="4" height="4" opacity=".8"/>
+      </g>
+      <g stroke="#19C7E8" stroke-width="1.4" opacity=".55" fill="none">
+        <path d="M40 100 C90 60, 150 60, 200 30 S 300 40, 322 90"/>
+      </g>
+      <circle cx="200" cy="30" r="3" fill="#19C7E8"/>
+      <circle cx="40" cy="100" r="2.5" fill="#146EF5"/>
+      <circle cx="322" cy="90" r="2.5" fill="#146EF5"/>
+    </svg>
+
+    <ul class="auth-feature-list">
+      <li><span class="auth-feature-dot"></span>AI-powered urban insights</li>
+      <li><span class="auth-feature-dot"></span>Future city forecasting to 2100</li>
+      <li><span class="auth-feature-dot"></span>Real-time traffic &amp; air-quality intelligence</li>
+    </ul>
+
+    <div class="auth-visual-footer">© SmartCityAI — India Urban Intelligence Platform</div>
+  </div>
+
+  <!-- RIGHT FORM PANEL -->
+  <div class="auth-form-panel">
+    <div class="auth-form-inner">
+      <div class="auth-logo-sm"><span class="dot"></span>SMARTCITYAI</div>
+      <h1 class="auth-h1">Create Your SmartCityAI Account</h1>
+      <p class="auth-sub">Start exploring the future of urban intelligence.</p>
+
+      <div class="banner" id="banner"></div>
+
+      <form id="registerForm" novalidate>
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Jane Doe" autocomplete="name" required/>
+          <div class="field-error-msg" id="nameErr"></div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required/>
+          <div class="field-error-msg" id="emailErr"></div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="field-input-wrap">
+            <input type="password" id="password" placeholder="Create a password" autocomplete="new-password" required/>
+            <button type="button" class="field-toggle-pw" id="togglePw">Show</button>
+          </div>
+          <div class="pw-strength">
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <div class="pw-strength-label" id="strengthLabel"></div>
+          <div class="field-error-msg" id="passwordErr"></div>
+        </div>
+
+        <div class="field">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="field-input-wrap">
+            <input type="password" id="confirmPassword" placeholder="Re-enter your password" autocomplete="new-password" required/>
+            <button type="button" class="field-toggle-pw" id="toggleConfirmPw">Show</button>
+          </div>
+          <div class="field-error-msg" id="confirmErr"></div>
+        </div>
+
+        <div class="terms-row">
+          <input type="checkbox" id="terms"/>
+          <label for="terms">I agree to the Terms of Service and Privacy Policy.</label>
+        </div>
+        <div class="field-error-msg" id="termsErr" style="margin-top:-14px;margin-bottom:14px;"></div>
+
+        <button type="submit" class="btn-primary" id="submitBtn">
+          <span class="spinner" id="submitSpinner"></span>
+          <span id="submitText">Create Account →</span>
+        </button>
+      </form>
+
+      <div class="auth-bottom">Already have an account? <a href="login.html">Sign In</a></div>
+      <div style="text-align:center;margin-top:12px"><a href="/" style="font-size:12px;color:var(--text-3);text-decoration:none;">← Back to SmartCityAI Home</a></div>
+    </div>
+  </div>
+
+</div>
+
+<script src="js/auth.js"></script>
+<script>
+  const banner = document.getElementById('banner');
+  // Redirect to /app/ if already authenticated
+  (async function() {
+    try {
+      const r = await fetch(API + '/api/auth/me', { credentials: 'include' });
+      const d = await r.json();
+      if (d.authenticated) window.location.replace('/app/');
+    } catch (e) { /* backend offline */ }
+  })();
+
+  const pwEl = document.getElementById('password');
+  const confirmEl = document.getElementById('confirmPassword');
+  togglePasswordField(pwEl, document.getElementById('togglePw'));
+  togglePasswordField(confirmEl, document.getElementById('toggleConfirmPw'));
+
+  const strengthBars = Array.from(document.querySelectorAll('.pw-strength i'));
+  const strengthLabel = document.getElementById('strengthLabel');
+  pwEl.addEventListener('input', () => updateStrengthMeter(pwEl.value, strengthBars, strengthLabel));
+
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    hideBanner(banner);
+
+    const nameEl = document.getElementById('name');
+    const emailEl = document.getElementById('email');
+    const termsEl = document.getElementById('terms');
+
+    const name = nameEl.value.trim();
+    const email = emailEl.value.trim();
+    const password = pwEl.value;
+    const confirmPassword = confirmEl.value;
+
+    let valid = true;
+    valid = fieldError(nameEl, document.getElementById('nameErr'), !name ? 'Please enter your full name.' : '') && valid;
+    valid = fieldError(emailEl, document.getElementById('emailErr'), !email ? 'Please enter a valid email.' : (!isValidEmail(email) ? 'Please enter a valid email.' : '')) && valid;
+    valid = fieldError(pwEl, document.getElementById('passwordErr'), !password || password.length < 8 ? 'Password must contain at least 8 characters.' : '') && valid;
+    valid = fieldError(confirmEl, document.getElementById('confirmErr'), password !== confirmPassword ? 'Passwords do not match.' : '') && valid;
+
+    const termsErrEl = document.getElementById('termsErr');
+    if (!termsEl.checked) { termsErrEl.textContent = 'Please accept the Terms of Service to continue.'; termsErrEl.classList.add('show'); valid = false; }
+    else { termsErrEl.classList.remove('show'); }
+
+    if (!valid) return;
+
+    const btn = document.getElementById('submitBtn');
+    const spinner = document.getElementById('submitSpinner');
+    const text = document.getElementById('submitText');
+    setLoading(btn, spinner, text, 'Creating Account...', true, 'Create Account →');
+
+    try {
+      const { ok, data } = await postJSON('/api/auth/register', { name, email, password, confirmPassword });
+      if (ok && data.success) {
+        showBanner(banner, 'Account created! Redirecting to sign in...', 'success');
+        setTimeout(() => { window.location.href = 'login.html'; }, 900);
+        return;
+      }
+      showBanner(banner, data.error || 'Something went wrong. Please try again.', 'error');
+    } catch (err) {
+      showBanner(banner, 'Unable to create your account right now. Please try again.', 'error');
+    } finally {
+      setLoading(btn, spinner, text, 'Creating Account...', false, 'Create Account →');
+    }
+  });
+</script>
+</body>
+</html>

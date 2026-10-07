@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SmartCity AI — India Urban Intelligence</title>
+  <meta name="description" content="AI-powered Smart City prediction system for 20 major Indian cities. Forecast traffic, air quality, and population growth from 2000 to 2100."/>
+  <meta name="theme-color" content="#071A2F"/>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/theme.css"/>
+  <link rel="stylesheet" href="css/layout.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/map-overrides.css"/>
+</head>
+<body>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-icon"><svg width="54" height="54" viewBox="0 0 64 64" fill="none"><defs><linearGradient id="boot-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563eb"/><stop offset="100%" stop-color="#7c3aed"/></linearGradient></defs><rect width="64" height="64" rx="14" fill="url(#boot-bg)"/><g fill="#fff" opacity=".95"><rect x="10" y="30" width="8" height="22" rx="2"/><rect x="20" y="20" width="10" height="32" rx="2"/><rect x="32" y="26" width="8" height="26" rx="2"/><rect x="42" y="16" width="12" height="36" rx="2"/></g><g fill="#60a5fa" opacity=".8"><rect x="12" y="33" width="3" height="3" rx=".5"/><rect x="12" y="39" width="3" height="3" rx=".5"/><rect x="23" y="24" width="3" height="3" rx=".5"/><rect x="23" y="30" width="3" height="3" rx=".5"/><rect x="28" y="24" width="3" height="3" rx=".5"/><rect x="34" y="30" width="3" height="3" rx=".5"/><rect x="44" y="20" width="3" height="3" rx=".5"/><rect x="44" y="26" width="3" height="3" rx=".5"/><rect x="50" y="20" width="3" height="3" rx=".5"/><rect x="50" y="26" width="3" height="3" rx=".5"/></g><circle cx="44" cy="10" r="5" fill="#fbbf24" opacity=".9"/><circle cx="44" cy="10" r="2.5" fill="#fff" opacity=".6"/></svg></div>
+  <div class="boot-t">SmartCity AI</div>
+  <div class="boot-s">India Urban Intelligence Platform</div>
+  <div class="boot-bar-w"><div class="boot-bar-f"></div></div>
+  <div class="boot-log" id="bootLog">Initialising...</div>
+</div>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside id="sb">
+  <div class="sb-brand">
+    <div class="sb-brand-row">
+      <div class="sb-brand-icon"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="url(#sb-grad)"/><path d="M8 22V14l4-4 4 6 4-8 4 6v8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="12" r="2" fill="#fff" opacity=".7"/><defs><linearGradient id="sb-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#2563eb"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs></svg></div>
+      <div class="sb-brand-name">SmartCity</div>
+    </div>
+    <div class="sb-brand-sub">AI Urban Prediction Platform</div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section-lbl">Main Menu</div>
+    <div class="nav-item active" onclick="setTab('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
+    <div class="nav-item" onclick="setTab('map')"><span class="nav-icon">🗺</span>Map View</div>
+    <div class="nav-item" onclick="setTab('analytics')"><span class="nav-icon">📈</span>Analytics</div>
+    <div class="nav-item" onclick="setTab('forecast')"><span class="nav-icon">🔮</span>ML Forecast</div>
+    <div class="nav-item" onclick="setTab('ai')"><span class="nav-icon">🤖</span>AI Advisor<span class="nav-badge red" id="navBadge">0</span></div>
+    <div class="sb-section-lbl">Data</div>
+    <div class="nav-item" onclick="setTab('compare')"><span class="nav-icon">⚖️</span>Compare</div>
+    <div class="nav-item" onclick="setTab('reports')"><span class="nav-icon">📋</span>Reports</div>
+    <div class="nav-item" onclick="setTab('settings')"><span class="nav-icon">⚙️</span>Settings</div>
+  </nav>
+
+  <div class="sb-footer">
+    <div class="api-pill">
+      <div class="api-dot" id="apiDot"></div>
+      <div class="api-label" id="apiLabel">Checking backend...</div>
+      <div class="api-ms" id="apiMs"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ MAIN ═══ -->
+<div id="main">
+
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <div>
+      <div class="tb-title" id="tbTitle">Smart City Dashboard</div>
+      <div class="tb-sub" id="tbSub">AI-powered urban prediction system · India</div>
+    </div>
+    <div class="tb-right">
+      <!-- 2 Theme Buttons — Light | Dark -->
+      <div class="theme-btn-group">
+        <button class="theme-btn-light" id="btnLight" onclick="setLightMode()" title="Light Mode">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          Light
+        </button>
+        <button class="theme-btn-dark" id="btnDark" onclick="setDarkMode()" title="Dark Mode">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Dark
+        </button>
+      </div>
+      <!-- Profile — rightmost -->
+      <div class="profile-wrap" id="profileWrap">
+        <button class="profile-trigger" id="profileBtn" onclick="toggleProfile()" title="Admin">
+          <div class="profile-trigger-avatar">A</div>
+          <div class="profile-trigger-info">
+            <div class="profile-trigger-name">Admin</div>
+            <div class="profile-trigger-role">City Planner</div>
+          </div>
+          <svg class="profile-trigger-caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="profile-dropdown" id="profileDropdown">
+          <div class="profile-header">
+            <div class="profile-avatar-lg">A</div>
+            <div>
+              <div class="profile-name">Admin User</div>
+              <div class="profile-role">City Planner</div>
+            </div>
+          </div>
+          <div class="profile-divider"></div>
+          <div class="profile-item" onclick="setTab('settings');toggleProfile()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile Settings
+          </div>
+
+          <div class="profile-item profile-item-danger" onclick="toggleProfile()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Sign Out
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+
+  <!-- SCROLL AREA -->
+  <div id="scroll">
+
+    <!-- ══ DASHBOARD ══ -->
+    <div class="pane active" id="pane-dashboard">
+      <div class="page-pad">
+
+        <!-- Predictor Card — Premium -->
+        <div class="predictor-premium-card" id="predictorCard">
+          <div class="ppc-left">
+            <div class="ppc-brand">
+              <div class="ppc-brand-icon">🤖</div>
+              <div>
+                <div class="ppc-title">SmartCity AI Predictor</div>
+                <div class="ppc-sub">Select city &amp; year to run ML predictions across all modules</div>
+              </div>
+            </div>
+            <div class="ppc-controls">
+              <div class="ppc-field">
+                <label class="ppc-label">City</label>
+                <input type="text" class="ppc-select" id="citySearch" placeholder="Search cities..." autocomplete="off" oninput="filterCities(this.value)" style="margin-bottom:4px;font-size:12.5px;padding:8px 10px;"/>
+                <select class="ppc-select" id="citySelect" onchange="onCityChange()">
+                  <option value="" selected>— Select City —</option>
+                  <option value="Mumbai">Mumbai</option>
+                  <option value="Delhi">Delhi</option>
+                  <option value="Bangalore">Bengaluru</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Chennai">Chennai</option>
+                  <option value="Kolkata">Kolkata</option>
+                  <option value="Pune">Pune</option>
+                  <option value="Ahmedabad">Ahmedabad</option>
+                  <option value="Jaipur">Jaipur</option>
+                  <option value="Surat">Surat</option>
+                  <option value="Lucknow">Lucknow</option>
+                  <option value="Kanpur">Kanpur</option>
+                  <option value="Nagpur">Nagpur</option>
+                  <option value="Bhopal">Bhopal</option>
+                  <option value="Patna">Patna</option>
+                  <option value="Vadodara">Vadodara</option>
+                  <option value="Coimbatore">Coimbatore</option>
+                  <option value="Visakhapatnam">Visakhapatnam</option>
+                  <option value="Indore">Indore</option>
+                  <option value="Chandigarh">Chandigarh</option>
+                </select>
+              </div>
+              <div class="ppc-field">
+                <label class="ppc-label">Prediction Year</label>
+                <select class="ppc-select" id="yearInput">
+                  <option value="" disabled selected>— Select Year —</option>
+                </select>
+              </div>
+
+              <button class="ppc-predict-btn" id="btnPredict" onclick="runPredict()">
+                <span class="ppc-btn-icon">▶</span>
+                <span class="ppc-btn-text">Run Prediction</span>
+              </button>
+            </div>
+          </div>
+          <div class="ppc-right" id="ppcStatus"></div>
+        </div>
+
+        <!-- Empty state — shown before first prediction -->
+        <div id="dashEmpty" class="dash-empty-state">
+          <div class="des-icon">🏙️</div>
+          <div class="des-title">Select a City &amp; Year to Begin</div>
+          <div class="des-sub">Choose your city, set the prediction year, then click <b>Predict ▶</b> to see AI-powered urban forecasts</div>
+          <div class="des-steps">
+            <div class="des-step"><span class="des-step-num">1</span><span>Select City</span></div>
+            <div class="des-step"><span class="des-step-num">2</span><span>Set Year</span></div>
+            <div class="des-step"><span class="des-step-num">3</span><span>Click Predict</span></div>
+          </div>
+        </div>
+
+        <!-- Results — hidden until Predict runs -->
+        <div id="dashResults" style="display:none">
+
+        <!-- KPIs -->
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-left">
+              <div class="kpi-lbl">Population</div>
+              <div class="kpi-val" id="kv-pop" style="color:var(--purple)">—</div>
+              <div class="kpi-sub" id="ks-pop">Loading...</div>
+            </div>
+            <div class="kpi-icon" style="background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(124,58,237,.12));color:#7c3aed;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-left">
+              <div class="kpi-lbl">Vehicles</div>
+              <div class="kpi-val" id="kv-veh" style="color:var(--blue)">—</div>
+              <div class="kpi-sub" id="ks-veh">Traffic Index</div>
+            </div>
+            <div class="kpi-icon" style="background:linear-gradient(135deg,rgba(26,86,219,.25),rgba(26,86,219,.12));color:#1a56db;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-left">
+              <div class="kpi-lbl">Green Cover</div>
+              <div class="kpi-val" id="kv-gc" style="color:var(--green)">—</div>
+              <div class="kpi-sub">Green zone index</div>
+            </div>
+            <div class="kpi-icon" style="background:linear-gradient(135deg,rgba(22,163,74,.25),rgba(22,163,74,.12));color:#16a34a;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8c.7-1 1.5-2.2 2-3.5C17.5 3.5 15 3 13 4c-1.5.7-2.5 2-3 3.5C9 6 7.5 5 6 4.5 4 4 2 5 2 8c0 3 2 5 4 6 .5.3 1 .7 1.5 1"/><path d="M12 16c-4 0-7-2-7-5 0-2 1.5-3.5 3-4"/><path d="M12 16c4 0 7-2 7-5 0-2-1.5-3.5-3-4"/><path d="M12 16v6"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-left">
+              <div class="kpi-lbl">Traffic Index</div>
+              <div class="kpi-val" id="kv-ti" style="color:var(--amber)">—</div>
+              <div class="kpi-sub" id="ks-ti">AQI level</div>
+            </div>
+            <div class="kpi-icon" style="background:linear-gradient(135deg,rgba(249,115,22,.25),rgba(249,115,22,.12));color:#f97316;">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M12 18v4"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M2 12h6"/><path d="M18 12h4"/><path d="M4.93 19.07l4.24-4.24"/><path d="M14.83 9.17l4.24-4.24"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+          <div class="card chart-body" style="min-height:280px;">
+            <div class="card-head">
+              <div><div class="card-title">City Growth Metrics</div><div class="card-sub">Year-wise trend: Traffic, AQI & Population</div></div>
+              <span class="badge badge-blue">LIVE</span>
+            </div>
+            <div class="chart-wrap"><canvas id="c-growth"></canvas></div>
+          </div>
+          <div class="card chart-body" style="min-height:280px;">
+            <div class="card-head">
+              <div><div class="card-title">Feature Distribution</div><div class="card-sub">Current year breakdown</div></div>
+              <span class="badge badge-teal">AI</span>
+            </div>
+            <div class="chart-wrap"><canvas id="c-dist"></canvas></div>
+          </div>
+        </div>
+
+        </div><!-- /dashResults -->
+
+      </div>
+    </div><!-- /dashboard -->
+
+    <!-- ══ MAP ══ — Real Google Maps -->
+    <div id="pane-map">
+      <div id="map-wrap">
+
+        <!-- Loading -->
+        <div class="gmap-loading" id="gmapLoading">
+          <div class="gmap-loading-icon">🗺️</div>
+          <div class="gmap-loading-text">Loading Google Maps…</div>
+          <div class="gmap-loading-sub" id="loadingCitySub">Opening map</div>
+        </div>
+
+        <!-- Google Maps iframe -->
+        <iframe id="gmap-iframe" src="" allowfullscreen loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+        <!-- ═══ LEFT MAP CONTROLS ═══ -->
+        <div id="map-left-panel">
+          <div class="mlp-section">
+            <div class="mlp-label">MAP VIEW</div>
+            <div class="mlp-btns">
+              <button class="mlp-btn active" id="mode-standard" onclick="setMapMode('standard')">🗺 Standard</button>
+              <button class="mlp-btn" id="mode-analysis" onclick="setMapMode('analysis')">🔬 AI Analysis</button>
+            </div>
+          </div>
+          <div class="mlp-section" id="mlp-basemap">
+            <div class="mlp-label">BASE MAP</div>
+            <div class="mlp-btns mlp-basemap-btns">
+              <button class="mlp-sm active" id="mt-default" onclick="switchMapType('default')">Standard</button>
+              <button class="mlp-sm" id="mt-satellite" onclick="switchMapType('satellite')">Satellite</button>
+            </div>
+          </div>
+          <div class="mlp-section" id="mlp-analysis">
+            <div class="mlp-label">ANALYSIS</div>
+            <div class="mlp-btns mlp-analysis-btns">
+              <button class="mlp-a" id="ov-traffic" onclick="setAnalysisOverlay('traffic')">🚦 Traffic</button>
+              <button class="mlp-a" id="ov-aqi" onclick="setAnalysisOverlay('aqi')">💨 AQI</button>
+              <button class="mlp-a" id="ov-population" onclick="setAnalysisOverlay('population')">👥 Population</button>
+              <button class="mlp-a" id="ov-risk" onclick="setAnalysisOverlay('risk')">⚠️ Urban Risk</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analysis Overlay Content -->
+        <div id="analysis-overlay" style="display:none;"></div>
+
+        <!-- Dynamic Legend -->
+        <div id="map-legend" style="display:none;"></div>
+
+        <!-- ═══ RIGHT AI PREDICTION PANEL ═══ -->
+        <div id="ai-panel">
+            <div class="aip-title">🤖 AI Prediction</div>
+            <div class="aip-meta">
+              <span class="aip-meta-item">📅 <span id="aip-year">—</span></span>
+              <span class="aip-meta-item">🏙️ <span id="aip-city">—</span></span>
+              <span class="aip-meta-item">🧠 <span id="aip-model">—</span></span>
+            </div>
+            <div class="aip-metric" id="aip-metric-traffic" onclick="selectMetricFromPanel('traffic')">
+              <div class="aip-row"><span class="aip-lbl">🚦 Traffic Risk</span><span class="aip-val" style="color:var(--red)"    id="aip-t">—</span></div>
+              <div class="aip-bar"><div class="aip-fill" id="aip-tb" style="background:var(--red);width:0%"></div></div>
+            </div>
+            <div class="aip-metric" id="aip-metric-aqi" onclick="selectMetricFromPanel('aqi')">
+              <div class="aip-row" style="margin-top:5px"><span class="aip-lbl">💨 Air Quality</span><span class="aip-val" style="color:var(--amber)" id="aip-a">—</span></div>
+              <div class="aip-bar"><div class="aip-fill" id="aip-ab" style="background:var(--amber);width:0%"></div></div>
+            </div>
+            <div class="aip-metric" id="aip-metric-population" onclick="selectMetricFromPanel('population')">
+              <div class="aip-row" style="margin-top:5px"><span class="aip-lbl">👥 Pop. Pressure</span><span class="aip-val" style="color:var(--purple)" id="aip-p">—</span></div>
+              <div class="aip-bar"><div class="aip-fill" id="aip-pb" style="background:var(--purple);width:0%"></div></div>
+            </div>
+            <div class="aip-metric" id="aip-metric-risk" onclick="selectMetricFromPanel('risk')" style="margin-top:4px;">
+              <div class="aip-risk-row">
+                <span class="aip-lbl">⚠ Overall Risk</span>
+                <span class="aip-risk-badge" id="aip-risk">—</span>
+              </div>
+            </div>
+            <div class="aip-models">
+              <button class="aip-mbtn active" id="aip-lstm" onclick="setModel('LSTM')">LSTM</button>
+              <button class="aip-mbtn"        id="aip-rf"   onclick="setModel('RF')">RF</button>
+              <button class="aip-mbtn"        id="aip-lr"   onclick="setModel('LR')">LR</button>
+            </div>
+          </div>
+
+      </div><!-- /map-wrap -->
+
+      <!-- Explorer bar — famous places -->
+      <div id="explorer-bar">
+        <div class="exp-header">
+          <div class="exp-header-title" id="expTitle">Explorer</div>
+          <div class="exp-header-sub">Click photo to view place</div>
+        </div>
+        <div class="exp-scroll" id="expScroll">
+          <div class="exp-placeholder" id="expPlaceholder">
+            <div class="exp-ph-icon">🏙️</div>
+            <div class="exp-ph-text">Select a city to explore famous places</div>
+          </div>
+        </div>
+        <div class="exp-nav">
+          <button class="exp-nav-btn" onclick="expL()">‹</button>
+          <button class="exp-nav-btn" onclick="expR()">›</button>
+        </div>
+      </div>
+
+      <!-- Image Modal — shown when clicking explorer card -->
+      <div id="placeModal" onclick="closePlaceModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <button class="modal-close" onclick="closePlaceModal()">✕</button>
+          <div class="modal-img-wrap">
+            <img id="modalImg" src="" alt="" onerror="this.style.display='none';document.getElementById('modalImgFallback').style.display='flex'"/>
+            <div id="modalImgFallback" class="modal-img-fallback" style="display:none"></div>
+          </div>
+          <div class="modal-body">
+            <div class="modal-type" id="modalType"></div>
+            <div class="modal-name" id="modalName"></div>
+            <div class="modal-city" id="modalCity"></div>
+            <div class="modal-desc" id="modalDesc"></div>
+            <div class="modal-actions">
+              <button class="modal-btn-primary" id="modalVisitBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                View on Map
+              </button>
+              <button class="modal-btn-secondary" onclick="closePlaceModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /map -->
+
+
+
+
+    <!-- ══ ANALYTICS ══ -->
+    <div class="pane" id="pane-analytics">
+      <div class="page-pad">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div><div style="font-size:17px;font-weight:800;color:var(--text-1);">Analytics</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Historical data + annual AI forecast through 2100</div></div>
+          <span class="badge badge-blue" id="an-city">—</span>
+        </div>
+        <div class="analytics-grid">
+          <div class="card chart-body" style="min-height:270px;">
+            <div class="card-head"><div><div class="card-title">Year-wise Trend — All Features</div><div class="card-sub">Traffic Index, AQI, Population over time</div></div><span class="badge badge-green">LIVE</span></div>
+            <div class="chart-wrap"><canvas id="c-trend"></canvas></div>
+          </div>
+          <div class="card chart-body" style="min-height:270px;">
+            <div class="card-head"><div><div class="card-title">City Composition</div><div class="card-sub">Current year distribution</div></div><span class="badge badge-teal">AI</span></div>
+            <div class="chart-wrap"><canvas id="c-donut"></canvas></div>
+          </div>
+        </div>
+        <div class="analytics-trio">
+          <div class="card chart-body" style="min-height:200px;">
+            <div class="card-head"><div class="card-title">Traffic Index</div><span class="badge badge-blue">PRED</span></div>
+            <div class="chart-wrap"><canvas id="c-traf"></canvas></div>
+          </div>
+          <div class="card chart-body" style="min-height:200px;">
+            <div class="card-head"><div class="card-title">Air Quality (AQI)</div><span class="badge badge-amber">FORECAST</span></div>
+            <div class="chart-wrap"><canvas id="c-aqi"></canvas></div>
+          </div>
+          <div class="card chart-body" style="min-height:200px;">
+            <div class="card-head"><div class="card-title">Population Growth</div><span class="badge badge-purple">ML</span></div>
+            <div class="chart-wrap"><canvas id="c-pop"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FORECAST ══ -->
+    <div class="pane" id="pane-forecast">
+      <div class="page-pad">
+        <div class="model-bar">
+          <div><div class="model-bar-title">ML Prediction Engine</div><div class="model-bar-sub">Compare LSTM · Random Forest · Linear Regression accuracy</div></div>
+          <div class="model-btns">
+            <button class="m-btn a-lstm" id="mb-LSTM" onclick="setModel('LSTM')">LSTM</button>
+            <button class="m-btn" id="mb-RF"   onclick="setModel('RF')">Random Forest</button>
+            <button class="m-btn" id="mb-LR"   onclick="setModel('LR')">Linear Reg.</button>
+          </div>
+        </div>
+        <div class="fc-grid" style="margin-bottom:14px;">
+          <div class="card chart-body fc-full" style="min-height:260px;">
+            <div class="card-head"><div><div class="card-title">All Features — Normalised (0–100)</div><div class="card-sub">Historical + Predicted · Traffic / AQI / Population compared</div></div><span class="badge badge-blue">MULTI-FEATURE</span></div>
+            <div class="chart-wrap"><canvas id="c-fc"></canvas></div>
+          </div>
+          <div class="card chart-body" style="min-height:220px;">
+            <div class="card-head"><div class="card-title">Model Accuracy</div><span class="badge badge-green">R² Score</span></div>
+            <div class="chart-wrap"><canvas id="c-acc"></canvas></div>
+          </div>
+          <div class="card chart-body" style="min-height:220px;">
+            <div class="card-head"><div class="card-title">Traffic Confidence Band</div><span class="badge badge-teal">95% CI</span></div>
+            <div class="chart-wrap"><canvas id="c-ci"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AI ══ -->
+    <div class="pane" id="pane-ai">
+      <div class="page-pad">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div><div style="font-size:17px;font-weight:800;color:var(--text-1);">AI Advisor</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;" id="recMeta">—</div></div>
+        </div>
+        <div class="ai-grid">
+          <div id="recCards"></div>
+          <div>
+            <div class="tbl-card">
+              <div class="tbl-hd"><div class="tbl-hdtitle">Prediction Table</div><div class="tbl-hdmeta" id="predMeta">—</div></div>
+              <table class="pred-tbl"><thead><tr><th>Year</th><th>Traffic</th><th>AQI</th><th>Pop(M)</th><th>Risk</th></tr></thead><tbody id="predBody"></tbody></table>
+            </div>
+            <div class="risk-section">
+              <div class="risk-sec-hd">Risk Assessment — <span id="riskLbl">—</span></div>
+              <div id="riskBars"></div>
+            </div>
+            <div class="mcmp">
+              <div class="mcmp-hd">Model Comparison — <span id="cmpLbl">—</span></div>
+              <div id="mcRows"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ REPORTS ══ -->
+    <div class="pane" id="pane-reports">
+      <div class="page-pad">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <div><div style="font-size:17px;font-weight:800;color:var(--text-1);">Reports</div><div style="font-size:12px;color:var(--text-3);margin-top:2px;">Generate professional reports from your SmartCityAI analysis.</div></div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:14px;">
+          <div style="font-size:13px;color:var(--text-3);">Current Analysis:</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-1);">City:</div><div style="font-size:12px;color:var(--blue);font-weight:700;" id="rep-city">—</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-1);">Year:</div><div style="font-size:12px;color:var(--blue);font-weight:700;" id="rep-year">—</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-1);">Model:</div><div style="font-size:12px;color:var(--purple);font-weight:700;" id="rep-model">—</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <!-- Structured PDF Report -->
+          <div class="card" style="padding:28px 24px;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6366f1,#8b5cf6);"></div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+              <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(139,92,246,.12));display:flex;align-items:center;justify-content:center;font-size:24px;">📄</div>
+              <div><div style="font-size:16px;font-weight:800;color:var(--text-1);">Structured Report</div><div style="font-size:12px;color:var(--text-3);">Professional PDF with tables and analysis</div></div>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-3);line-height:1.6;margin-bottom:18px;">Detailed technical analysis report with executive summary, city information, prediction analysis, key metrics tables, machine learning analysis, AI insights, and recommendations.</div>
+            <button onclick="doExportPDF()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px rgba(99,102,241,.3);transition:transform .15s,box-shadow .15s;" onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 20px rgba(99,102,241,.4)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 6px 16px rgba(99,102,241,.3)'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF</button>
+          </div>
+          <!-- Visualized Data Report -->
+          <div class="card" style="padding:28px 24px;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#16a34a,#22c55e);"></div>
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+              <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,rgba(22,163,74,.12),rgba(34,197,94,.12));display:flex;align-items:center;justify-content:center;font-size:24px;">📊</div>
+              <div><div style="font-size:16px;font-weight:800;color:var(--text-1);">Visualized Data Report</div><div style="font-size:12px;color:var(--text-3);">Charts, trends and visual analysis</div></div>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-3);line-height:1.6;margin-bottom:18px;">Visually rich report with population trend, traffic analysis, air quality visualization, green cover comparison, urban risk assessment, model performance, and key insights.</div>
+            <button onclick="doExportVisual()" style="width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-weight:700;font-size:13.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 6px 16px rgba(22,163,74,.3);transition:transform .15s,box-shadow .15s;" onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 8px 20px rgba(22,163,74,.4)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 6px 16px rgba(22,163,74,.3)'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ COMPARE ══ -->
+    <div class="pane" id="pane-compare">
+      <div class="page-pad">
+        <!-- Header -->
+        <div style="margin-bottom:14px;">
+          <div style="font-size:17px;font-weight:800;color:var(--text-1);">City Comparison</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:2px;">Compare two cities side-by-side across all available prediction metrics.</div>
+        </div>
+
+        <!-- Controls Card -->
+        <div class="card" style="padding:20px 24px;margin-bottom:14px;">
+          <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:150px;">
+              <label style="display:block;font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">City A</label>
+              <select class="ppc-select" id="cmpCityA" onchange="onCmpSelectionChange()" style="width:100%;">
+                <option value="" selected>— Select City —</option>
+              </select>
+            </div>
+            <div style="font-size:16px;font-weight:900;color:var(--text-3);padding-bottom:8px;flex:0 0 auto;">VS</div>
+            <div style="flex:1;min-width:150px;">
+              <label style="display:block;font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">City B</label>
+              <select class="ppc-select" id="cmpCityB" onchange="onCmpSelectionChange()" style="width:100%;">
+                <option value="" selected>— Select City —</option>
+              </select>
+            </div>
+            <div style="flex:0 0 120px;">
+              <label style="display:block;font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Year</label>
+              <select class="ppc-select" id="cmpYear" onchange="onCmpSelectionChange()" style="width:100%;"></select>
+            </div>
+            <button id="cmpBtn" onclick="onCmpCompare()" style="padding:10px 24px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(99,102,241,.3);transition:transform .15s,box-shadow .15s;flex:0 0 auto;margin-bottom:1px;" onmouseenter="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 18px rgba(99,102,241,.4)'" onmouseleave="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(99,102,241,.3)'"><span id="cmpBtnIcon">⚖️</span> <span id="cmpBtnText">Compare Cities</span></button>
+          </div>
+        </div>
+
+        <!-- Empty state -->
+        <div id="cmpEmpty" class="card" style="padding:32px 20px;text-align:center;">
+          <div style="font-size:36px;margin-bottom:10px;">⚖️</div>
+          <div style="font-size:15px;font-weight:800;color:var(--text-1);margin-bottom:6px;">Select Two Cities to Compare</div>
+          <div style="font-size:12.5px;color:var(--text-3);">Choose City A, City B, and a year, then click <b>Compare Cities</b> to view the analysis.</div>
+        </div>
+
+        <!-- Loading state -->
+        <div id="cmpLoading" class="card" style="display:none;padding:36px 20px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:10px;">⏳</div>
+          <div style="font-size:14px;font-weight:700;color:var(--text-1);">Analyzing...</div>
+          <div style="font-size:12px;color:var(--text-3);margin-top:4px;">Preparing comparison data</div>
+        </div>
+
+        <!-- Results -->
+        <div id="cmpResults" style="display:none;">
+          <!-- KPI side-by-side -->
+          <div class="cmp-kpi-grid" style="margin-bottom:14px;">
+            <div class="cmp-kpi-col" id="cmpKpiA"></div>
+            <div class="cmp-kpi-col" id="cmpKpiB"></div>
+          </div>
+          <!-- Charts -->
+          <div class="charts-grid" style="margin-bottom:14px;">
+            <div class="card chart-body" style="min-height:260px;">
+              <div class="card-head">
+                <div><div class="card-title">Traffic & AQI Comparison</div><div class="card-sub">Indexed to 100 for fair comparison</div></div>
+                <span class="badge badge-blue">DUAL</span>
+              </div>
+              <div class="chart-wrap"><canvas id="c-cmp-bar"></canvas></div>
+            </div>
+            <div class="card chart-body" style="min-height:260px;">
+              <div class="card-head">
+                <div><div class="card-title">100-Year Growth Trajectory</div><div class="card-sub">Population growth comparison</div></div>
+                <span class="badge badge-purple">TREND</span>
+              </div>
+              <div class="chart-wrap"><canvas id="c-cmp-line"></canvas></div>
+            </div>
+          </div>
+          <!-- Comparison table -->
+          <div class="card" style="margin-bottom:14px;overflow-x:auto;">
+            <div class="card-head">
+              <div><div class="card-title">Detailed Comparison</div><div class="card-sub" id="cmpTableMeta">—</div></div>
+            </div>
+            <table class="pred-tbl" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th id="cmpThA">City A</th>
+                  <th id="cmpThB">City B</th>
+                  <th>Delta</th>
+                  <th>Winner</th>
+                </tr>
+              </thead>
+              <tbody id="cmpBody"></tbody>
+            </table>
+          </div>
+          <!-- Comparison Summary -->
+          <div class="card" style="padding:20px 24px;">
+            <div style="font-size:14px;font-weight:800;color:var(--text-1);margin-bottom:12px;">📋 Comparison Summary</div>
+            <div id="cmpSummary" style="font-size:12.5px;color:var(--text-3);line-height:1.7;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS ══ -->
+    <div class="pane" id="pane-settings">
+      <div class="page-pad settings-page">
+        <div class="settings-intro">
+          <div>
+            <div class="settings-title">Settings</div>
+            <div class="settings-subtitle">Manage your SmartCityAI profile and workspace preferences.</div>
+          </div>
+          <div class="settings-status" id="settingsStatus">Account protected</div>
+        </div>
+
+        <div class="settings-grid">
+          <!-- Profile -->
+          <section class="settings-card">
+            <div class="settings-card-head"><div class="settings-card-icon">◉</div><div><h2>Profile Settings</h2><p>Update the details connected to your account.</p></div></div>
+            <form id="profileForm" class="settings-form">
+              <label>Full Name<input id="profileName" type="text" autocomplete="name" required></label>
+              <label>Email Address<input id="profileEmail" type="email" autocomplete="email" required></label>
+              <button class="settings-action" type="submit">Save Profile</button>
+            </form>
+          </section>
+
+          <!-- Security -->
+          <section class="settings-card">
+            <div class="settings-card-head"><div class="settings-card-icon">◆</div><div><h2>Security</h2><p>Keep your local SmartCityAI password up to date.</p></div></div>
+            <form id="passwordForm" class="settings-form">
+              <label>Current Password<input id="currentPassword" type="password" autocomplete="current-password" required></label>
+              <label>New Password<input id="newPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+              <label>Confirm New Password<input id="confirmNewPassword" type="password" autocomplete="new-password" minlength="8" required></label>
+              <button class="settings-action" type="submit">Change Password</button>
+            </form>
+          </section>
+
+          <!-- Urban Intelligence Preferences -->
+          <section class="settings-card settings-preferences">
+            <div class="settings-card-head"><div class="settings-card-icon">🏙️</div><div><h2>Urban Intelligence</h2><p>Configure your SmartCityAI prediction defaults.</p></div></div>
+            <label>Default City<select id="prefDefaultCity" onchange="saveSetting('defaultCity',this.value)"></select></label>
+            <label>Prediction Model<select id="prefModel" onchange="saveSetting('predictionModel',this.value)">
+              <option value="LSTM">LSTM — Best accuracy</option>
+              <option value="RF">Random Forest — Balanced</option>
+              <option value="LR">Linear Regression — Baseline</option>
+            </select></label>
+            <label>Default View<select id="prefDefaultView" onchange="saveSetting('defaultView',this.value)">
+              <option value="dashboard">Dashboard</option>
+              <option value="map">Map View</option>
+              <option value="analytics">Analytics</option>
+              <option value="forecast">ML Forecast</option>
+            </select></label>
+            <label>Forecast Horizon<select id="prefForecastYear" onchange="saveSetting('forecastYear',this.value)"></select></label>
+          </section>
+
+
+          <section class="settings-card settings-preferences">
+            <div class="settings-card-head"><div class="settings-card-icon">🤖</div><div><h2>AI Advisor</h2><p>Configure AI recommendation behavior.</p></div></div>
+            <label class="settings-toggle"><span><b>AI Recommendations</b><small>Show AI-powered suggestions</small></span><input type="checkbox" id="prefAIRecs" checked onchange="saveSetting('aiRecs',this.checked)"><i></i></label>
+            <label class="settings-toggle"><span><b>Risk Alerts</b><small>Highlight critical risk levels</small></span><input type="checkbox" id="prefRiskAlerts" checked onchange="saveSetting('riskAlerts',this.checked)"><i></i></label>
+            <label class="settings-toggle"><span><b>Show Confidence Scores</b><small>Display model confidence</small></span><input type="checkbox" id="prefConfidence" checked onchange="saveSetting('confidenceScores',this.checked)"><i></i></label>
+            <label>Recommendation Detail<select id="prefRecDetail" onchange="saveSetting('recDetail',this.value)">
+              <option value="brief">Brief</option>
+              <option value="standard" selected>Standard</option>
+              <option value="detailed">Detailed</option>
+            </select></label>
+          </section>
+
+
+          <section class="settings-card settings-preferences">
+            <div class="settings-card-head"><div class="settings-card-icon">🎨</div><div><h2>Appearance</h2><p>Customize the look and feel.</p></div></div>
+            <label class="settings-toggle"><span><b>Dark mode</b><small>Use the dark dashboard theme</small></span><input type="checkbox" id="settingsDarkMode"><i></i></label>
+            <label class="settings-toggle"><span><b>Remember last city</b><small>Restore your selected city on this browser</small></span><input type="checkbox" id="rememberCity"><i></i></label>
+            <label class="settings-toggle"><span><b>Reduced Motion</b><small>Minimize animations</small></span><input type="checkbox" id="prefReducedMotion" onchange="saveSetting('reducedMotion',this.checked)"><i></i></label>
+            <label class="settings-toggle"><span><b>Compact Dashboard</b><small>Reduce card padding</small></span><input type="checkbox" id="prefCompact" onchange="saveSetting('compactDashboard',this.checked)"><i></i></label>
+            <label class="settings-toggle"><span><b>Show Tooltips</b><small>Display helpful tooltips</small></span><input type="checkbox" id="prefTooltips" checked onchange="saveSetting('showTooltips',this.checked)"><i></i></label>
+            <button class="settings-action secondary" type="button" onclick="resetWorkspacePreferences()">Reset All Preferences</button>
+          </section>
+
+          <!-- Analytics -->
+          <section class="settings-card" style="grid-column:1/-1">
+            <div class="settings-card-head"><div class="settings-card-icon">📊</div><div><h2>Site Analytics</h2><p>Page views and visitor stats (self-hosted, privacy-friendly).</p></div></div>
+            <div id="analyticsPanel" style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;" id="analyticsKpis"></div>
+              <div style="font-size:12px;color:var(--text-3);" id="analyticsTop"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /scroll -->
+
+  <!-- STATUS BAR -->
+  <div id="statusbar">
+    <div class="sb-stat">City: <b id="st-city">—</b></div>
+    <div class="sb-stat">Year: <b id="st-year">—</b></div>
+    <div class="sb-stat">Model: <b id="st-model">—</b></div>
+    <div class="sb-stat">Map Theme: <b id="st-theme">Standard</b></div>
+    <div style="margin-left:auto;display:flex;gap:16px;">
+      <div class="sb-stat ok" id="st-api">API: Checking</div>
+      <div class="sb-stat ok">All Systems Operational</div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+
+  <!-- JS — loaded in dependency order -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/auth-guard.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/display.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/compare.js"></script>
+  <script src="vendor/jspdf.min.js"></script>
+  <script src="js/pdf-report.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/chatbot.js"></script>
+  <!-- ══ AI CHATBOT ══ -->
+  <div id="chatbot-toggle" onclick="toggleChatbot()" style="position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 20px rgba(99,102,241,.4);z-index:9999;transition:transform .2s;font-size:22px;">💬</div>
+  <div id="chatbot-window" style="display:none;position:fixed;bottom:88px;right:24px;width:360px;max-height:500px;background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);z-index:9999;overflow:hidden;border:1px solid var(--border);flex-direction:column;">
+    <div style="padding:14px 16px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:space-between;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:18px;">🤖</span>
+        <div><div style="font-weight:700;font-size:14px;">SmartCityAI Assistant</div><div style="font-size:11px;opacity:.8;">Ask about your city data</div></div>
+      </div>
+      <div onclick="toggleChatbot()" style="cursor:pointer;font-size:18px;opacity:.8;">✕</div>
+    </div>
+    <div id="chatbot-messages" style="flex:1;overflow-y:auto;padding:14px;height:340px;display:flex;flex-direction:column;gap:10px;"></div>
+    <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px;">
+      <input id="chatbot-input" type="text" placeholder="Ask about traffic, AQI, predictions..." style="flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;outline:none;background:var(--card);color:var(--text-1);" onkeydown="if(event.key==='Enter')sendChatMessage()"/>
+      <button onclick="sendChatMessage()" style="padding:10px 16px;border:none;border-radius:10px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;font-weight:700;font-size:13px;cursor:pointer;">Send</button>
+    </div>
+  </div>
+
+  <!-- Privacy-friendly analytics -->
+  <script>
+  (function(){
+    try {
+      fetch('/api/analytics/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: window.location.pathname })
+      });
+    } catch(e) {}
+  })();
+  </script>
+</body>
+</html>

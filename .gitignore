@@ -1,0 +1,16 @@
+# Secrets
+backend/.env
+
+# Database (contains real user data — don't commit)
+# Covers smartcity.db plus the ones the test suite creates
+backend/*.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

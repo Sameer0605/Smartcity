@@ -1,0 +1,91 @@
+/* theme.css — SmartCity AI: CSS Variables, Fonts, Light/Dark Tokens */
+
+
+/* ╔══════════════════════════════════════╗
+   ║  SMARTCITY AI — PREMIUM THEME SYSTEM ║
+   ╚══════════════════════════════════════╝ */
+
+/* ── Shared accent colours (never change) ── */
+:root {
+  --accent:      #2563eb;
+  --accent-dark: #1d4ed8;
+  --accent-glow: rgba(37,99,235,.35);
+  --green:       #16a34a;   --green-l:  #dcfce7;
+  --amber:       #d97706;   --amber-l:  #fef3c7;
+  --red:         #dc2626;   --red-l:    #fee2e2;
+  --purple:      #7c3aed;   --purple-l: #ede9fe;
+  --teal:        #0891b2;   --teal-l:   #cffafe;
+  --r:    10px;  --r-lg: 14px;  --r-xl: 18px;
+  --sidebar: 248px;  --hdr: 64px;  --status: 26px;
+  --font:  'Poppins', 'Inter', system-ui, sans-serif;
+  --font-display: 'Poppins', 'Space Grotesk', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', monospace;
+  --transition: all .22s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── LIGHT THEME (default) ── */
+:root, [data-theme="light"] {
+  --blue:        #2563eb;
+  --blue-dark:   #1d4ed8;
+  --blue-mid:    #3b82f6;
+  --blue-light:  #dbeafe;
+  --blue-pale:   #eff6ff;
+  --white:       #ffffff;
+  --bg:          linear-gradient(135deg,#eef2ff 0%,#f8fafc 60%,#eff6ff 100%);
+  --bg-2:        rgba(238,242,255,.6);
+  --card:        #ffffff;
+  --card-2:      #f8fafc;
+  --border:      #e2e8f0;
+  --border-2:    #cbd5e1;
+  --text-1:      #0d1117;
+  --text-2:      #1e293b;
+  --text-3:      #475569;
+  --text-4:      #94a3b8;
+  --sb-bg:       linear-gradient(180deg,#1e3a8a 0%,#1d4ed8 50%,#2563eb 100%);
+  --sb-text:     rgba(255,255,255,.85);
+  --sb-text-dim: rgba(255,255,255,.45);
+  --topbar-bg:   #ffffff;
+  --shadow-xs:   0 1px 2px rgba(0,0,0,.06);
+  --shadow-sm:   0 2px 6px rgba(0,0,0,.08);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.08),0 1px 4px rgba(0,0,0,.04);
+  --shadow-lg:   0 12px 32px rgba(0,0,0,.1),0 4px 8px rgba(0,0,0,.05);
+  --shadow-xl:   0 24px 48px rgba(0,0,0,.12),0 8px 16px rgba(0,0,0,.06);
+}
+
+/* ── DARK THEME ── */
+[data-theme="dark"] {
+  --blue:        #3b82f6;
+  --blue-dark:   #2563eb;
+  --blue-mid:    #60a5fa;
+  --blue-light:  rgba(59,130,246,.15);
+  --blue-pale:   rgba(59,130,246,.08);
+  --white:       #1a1f2e;
+  --bg:          #0f172a;
+  --bg-2:        #1e293b;
+  --card:        #1e293b;
+  --card-2:      #243044;
+  --border:      rgba(255,255,255,.08);
+  --border-2:    rgba(255,255,255,.12);
+  --text-1:      #f1f5f9;
+  --text-2:      #c8d4e8;
+  --text-3:      #8899b4;
+  --text-4:      #4d6080;
+  --sb-bg:       linear-gradient(180deg,#0d1117 0%,#111827 100%);
+  --sb-text:     rgba(255,255,255,.88);
+  --sb-text-dim: rgba(255,255,255,.35);
+  --topbar-bg:   #131720;
+  --shadow-xs:   0 1px 2px rgba(0,0,0,.3);
+  --shadow-sm:   0 2px 6px rgba(0,0,0,.35);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.4),0 1px 4px rgba(0,0,0,.2);
+  --shadow-lg:   0 12px 32px rgba(0,0,0,.45),0 4px 8px rgba(0,0,0,.25);
+  --shadow-xl:   0 24px 48px rgba(0,0,0,.5),0 8px 16px rgba(0,0,0,.3);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Poppins',var(--font);font-size:14px;background:var(--bg);color:var(--text-1);display:flex;transition:background .4s ease,color .3s ease;}
+button,select,input{font-family:inherit;outline:none;border:none;transition:var(--transition);}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:4px;}
+
